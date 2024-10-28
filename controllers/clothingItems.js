@@ -52,36 +52,84 @@ const updateClothingItem = (req, res) => {
     });
 };
 
-const likeClothingItem = (req, res) =>
+const likeClothingItem = (req, res) => {
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
     { $addToSet: { likes: req.user._id } },
     { new: true }
-  );
+  )
+    .orFail()
+    .then((updatedData) => {
+      res.send(updatedData);
+    })
+    .catch((err) => {
+      console.error(err);
+      if (err.name === "DocumentNotFoundError") {
+        return res.status(404).send({
+          message: `${err.name} with the message ${err.message}`,
+        });
+      }
+      if (err.name === "CastError") {
+        return res.status(400).send({
+          message: `${err.name} with the message ${err.message}`,
+        });
+      } else {
+        return res.status(500).send({
+          message: `${err.name} with the message ${err.message}`,
+        });
+      }
+    });
+};
 
 const dislikeClothingItem = (req, res) =>
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
     {
-      $pull: { likes: req.user.userId },
+      $pull: { likes: req.user._id },
     },
     { new: true }
-  );
+  )
+    .orFail()
+    .then((updatedData) => res.send(updatedData))
+    .catch((err) => {
+      console.error(err);
+      if (err.name === "DocumentNotFoundError") {
+        return res.status(404).send({
+          message: `${err.name} with the message ${err.message}`,
+        });
+      }
+      if (err.name === "CastError") {
+        return res.status(400).send({
+          message: `${err.name} with the message ${err.message}`,
+        });
+      } else {
+        return res.status(500).send({
+          message: `${err.name} with the message ${err.message}`,
+        });
+      }
+    });
 
 const deleteClothingItem = (req, res) => {
   const { itemId } = req.params;
   ClothingItem.findByIdAndRemove({ _id: itemId })
-    .orFail(() => {
-      const error = new Error("Item ID not found");
-      error.statusCode = 404;
-      throw error;
-    })
+    .orFail()
     .then((item) => res.status(200).send(item))
     .catch((err) => {
       console.error(err);
-      return res
-        .status(500)
-        .send({ message: `${err.name} with the message ${err.message}` });
+      if (err.name === "DocumentNotFoundError") {
+        return res.status(404).send({
+          message: `${err.name} with the message ${err.message}`,
+        });
+      }
+      if (err.name === "CastError") {
+        return res.status(400).send({
+          message: `${err.name} with the message ${err.message}`,
+        });
+      } else {
+        return res.status(500).send({
+          message: `${err.name} with the message ${err.message}`,
+        });
+      }
     });
 };
 
