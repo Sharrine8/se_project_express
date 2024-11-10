@@ -1,14 +1,13 @@
-const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
 const {
   BAD_REQUEST,
-  AUTH_ERROR,
   NOT_FOUND,
   DEFAULT,
   CONFLICT,
 } = require("../utils/errors");
-const JWT_SECRET = require("../utils/config");
-const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../utils/config");
 
 const getUsers = (req, res) => {
   User.find({})
@@ -33,23 +32,23 @@ const login = (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      return res.status(AUTH_ERROR).send({
+      return res.status(BAD_REQUEST).send({
         message: err.message,
       });
     });
 };
 
-//check that there's not already an existing user email
-//email se to user, the user.create will throw a
-//11000 MongoDB duplicate error -- handle this error
-//in a throw block and return a corresponding err msg
 const createUser = (req, res) => {
   const { email, password, name, avatar } = req.body;
   return bcrypt
     .hash(password, 10)
     .then((hash) => User.create({ email, password: hash, name, avatar }))
     .then((user) =>
-      res.send({ name: user.name, email: user.email, avatar: user.avatar })
+      res.send({
+        email: user.email,
+        name: user.name,
+        avatar: user.avatar,
+      })
     )
     .catch((err) => {
       console.error(err);
@@ -57,7 +56,8 @@ const createUser = (req, res) => {
         return res.status(CONFLICT).send({
           message: `Email is already in use`,
         });
-      } else if (err.name === "ValidationError") {
+      }
+      if (err.name === "ValidationError") {
         return res.status(BAD_REQUEST).send({
           message: `${err.name} with the message ${err.message}`,
         });
@@ -68,28 +68,71 @@ const createUser = (req, res) => {
     });
 };
 
-const getUserById = (req, res) => {
-  console.log(req.params);
-  const { userId } = req.params;
-  User.findById(userId)
+const getCurrentUser = (req, res) => {
+  console.log(req.user._id);
+  User.findById(req.user._id)
     .orFail()
-    .then((user) => res.send(user))
+    .then((user) => {
+      const { _id, email, avatar, name } = user;
+      res.send({ _id, email, avatar, name });
+    })
     .catch((err) => {
       console.error(err);
-      if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({
-          message: `${err.name} with the message ${err.message}`,
-        });
-      }
-      if (err.name === "CastError") {
+      if (err.name === "ValidatorError") {
         return res.status(BAD_REQUEST).send({
           message: `${err.name} with the message ${err.message}`,
         });
-      }
-      return res.status(DEFAULT).send({
-        message: `An error has occurred on the server`,
-      });
+      } if (err.name === "DocumentNotFoundError") {
+        return res.status(NOT_FOUND).send({
+          message: "User not found",
+        });
+      } 
+        return res.status(DEFAULT).send({
+          message: "An error has occured on the server",
+        });
+      
     });
 };
 
-module.exports = { getUsers, createUser, getUserById, login };
+const updateUser = (req, res) => {
+  const { name, avatar } = req.body;
+  // update
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, avatar },
+    { runValidators: true }
+  )
+    .orFail()
+    .then((user) => {
+      const { _id, email } = user;
+      return res.send({ _id, email, name, avatar });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+// const getUserById = (req, res) => {
+//   const { userId } = req.params;
+//   User.findById(userId)
+//     .orFail()
+//     .then((user) => res.send(user))
+//     .catch((err) => {
+//       console.error(err);
+//       if (err.name === "DocumentNotFoundError") {
+//         return res.status(NOT_FOUND).send({
+//           message: `${err.name} with the message ${err.message}`,
+//         });
+//       }
+//       if (err.name === "CastError") {
+//         return res.status(BAD_REQUEST).send({
+//           message: `${err.name} with the message ${err.message}`,
+//         });
+//       }
+//       return res.status(DEFAULT).send({
+//         message: `An error has occurred on the server`,
+//       });
+//     });
+// };
+
+module.exports = { getUsers, createUser, getCurrentUser, updateUser, login };

@@ -16,17 +16,10 @@ mongoose
 
 app.use(express.json());
 
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id: "671c09510c5089144beb9553",
-//   };
-//   next();
-// });
-
 app.post("/signup", createUser);
 app.post("/signin", login);
 
-// app.use(auth);
+app.use(auth);
 
 app.use("/", mainRouter);
 
