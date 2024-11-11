@@ -96,15 +96,18 @@ const dislikeClothingItem = (req, res) =>
 
 const deleteClothingItem = (req, res) => {
   const { itemId } = req.params;
-  ClothingItem.findByIdAndRemove({ _id: itemId })
+
+  ClothingItem.findById(itemId)
     .orFail()
     .then((item) => {
-      if (item.owner.toString() !== req.user._id.toString()) {
+      if (String(item.owner) !== req.user._id) {
         return res
           .status(FORBIDDEN)
-          .send({ message: "You can only delete your items" });
+          .send({ message: "You can only delete your own items" });
       }
-      return res.status(200).send(item);
+      return item
+        .deleteOne()
+        .then(() => res.status(200).send({ message: "Successfully deleted" }));
     })
     .catch((err) => {
       console.error(err);
