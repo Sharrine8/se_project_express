@@ -69,7 +69,6 @@ const createUser = (req, res) => {
 };
 
 const getCurrentUser = (req, res) => {
-  console.log(req.user._id);
   User.findById(req.user._id)
     .orFail()
     .then((user) => {
@@ -82,15 +81,15 @@ const getCurrentUser = (req, res) => {
         return res.status(BAD_REQUEST).send({
           message: `${err.name} with the message ${err.message}`,
         });
-      } if (err.name === "DocumentNotFoundError") {
+      }
+      if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND).send({
           message: "User not found",
         });
-      } 
-        return res.status(DEFAULT).send({
-          message: "An error has occured on the server",
-        });
-      
+      }
+      return res.status(DEFAULT).send({
+        message: "An error has occured on the server",
+      });
     });
 };
 
