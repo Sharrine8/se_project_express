@@ -8,14 +8,22 @@ const mainRouter = require("./routes/index");
 const { createUser, login } = require("./controllers/users");
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/wtwr_db")
+  .connect("mongodb://localhost:27017/wtwr_db", {
+    authSource: "admin",
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Connected to DB");
   })
-  .catch(console.error);
+  .catch(console.error, "Error connecting to DB");
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.post("/signup", createUser);
 app.post("/signin", login);

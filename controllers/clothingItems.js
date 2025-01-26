@@ -11,9 +11,9 @@ const getClothingItems = (req, res) => {
     .then((items) => res.send(items))
     .catch((err) => {
       console.error(err);
-      return res
-        .status(DEFAULT)
-        .send({ message: `An error has occurred on the server` });
+      return res.status(DEFAULT).send({
+        message: `1 An error has occurred on the server ${res}`,
+      });
     });
 };
 
@@ -35,7 +35,7 @@ const createClothingItem = (req, res) => {
       }
       return res
         .status(DEFAULT)
-        .send({ message: `An error has occurred on the server` });
+        .send({ message: `2 An error has occurred on the server` });
     });
 };
 
@@ -62,7 +62,7 @@ const likeClothingItem = (req, res) => {
         });
       }
       return res.status(DEFAULT).send({
-        message: `An error has occurred on the server`,
+        message: `3 An error has occurred on the server`,
       });
     });
 };
@@ -90,7 +90,7 @@ const dislikeClothingItem = (req, res) =>
         });
       }
       return res.status(DEFAULT).send({
-        message: `An error has occurred on the server`,
+        message: `4 An error has occurred on the server`,
       });
     });
 
@@ -100,6 +100,9 @@ const deleteClothingItem = (req, res) => {
   ClothingItem.findById(itemId)
     .orFail()
     .then((item) => {
+      console.log(item);
+      console.log(item.owner);
+      console.log(req.user._id);
       if (String(item.owner) !== req.user._id) {
         return res
           .status(FORBIDDEN)
@@ -122,7 +125,7 @@ const deleteClothingItem = (req, res) => {
         });
       }
       return res.status(DEFAULT).send({
-        message: `An error has occurred on the server`,
+        message: `5 An error has occurred on the server`,
       });
     });
 };
