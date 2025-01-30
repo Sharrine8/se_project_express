@@ -25,7 +25,7 @@ const createClothingItem = (req, res) => {
     imageUrl,
     owner: req.user._id,
   })
-    .then((item) => res.send({ data: item }))
+    .then((item) => res.send(item))
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
