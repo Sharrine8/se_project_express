@@ -12,7 +12,7 @@ const getClothingItems = (req, res) => {
     .catch((err) => {
       console.error(err);
       return res.status(DEFAULT).send({
-        message: `1 An error has occurred on the server ${res}`,
+        message: `An error has occurred on the server ${res}`,
       });
     });
 };
@@ -35,11 +35,12 @@ const createClothingItem = (req, res) => {
       }
       return res
         .status(DEFAULT)
-        .send({ message: `2 An error has occurred on the server` });
+        .send({ message: `An error has occurred on the server` });
     });
 };
 
 const likeClothingItem = (req, res) => {
+  // console.log(req.params.itemId);
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
     { $addToSet: { likes: req.user._id } },
@@ -100,9 +101,6 @@ const deleteClothingItem = (req, res) => {
   ClothingItem.findById(itemId)
     .orFail()
     .then((item) => {
-      console.log(item);
-      console.log(item.owner);
-      console.log(req.user._id);
       if (String(item.owner) !== req.user._id) {
         return res
           .status(FORBIDDEN)
