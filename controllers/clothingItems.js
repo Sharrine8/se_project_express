@@ -40,7 +40,6 @@ const createClothingItem = (req, res) => {
 };
 
 const likeClothingItem = (req, res) => {
-  // console.log(req.params.itemId);
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
     { $addToSet: { likes: req.user._id } },
