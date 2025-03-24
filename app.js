@@ -6,6 +6,7 @@ const app = express();
 const { PORT = 3001 } = process.env;
 const mainRouter = require("./routes/index");
 const { createUser, login } = require("./controllers/users");
+const errorHandler = require("./middlewares/error-handler");
 
 mongoose
   .connect("mongodb://localhost:27017/wtwr_db", {
@@ -29,6 +30,8 @@ app.post("/signup", createUser);
 app.post("/signin", login);
 
 app.use("/", mainRouter);
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);

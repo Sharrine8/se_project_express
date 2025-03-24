@@ -62,7 +62,7 @@ const likeClothingItem = (req, res) => {
         });
       }
       return res.status(DEFAULT).send({
-        message: `3 An error has occurred on the server`,
+        message: `An error has occurred on the server`,
       });
     });
 };
@@ -90,7 +90,7 @@ const dislikeClothingItem = (req, res) =>
         });
       }
       return res.status(DEFAULT).send({
-        message: `4 An error has occurred on the server`,
+        message: `An error has occurred on the server`,
       });
     });
 
@@ -122,7 +122,7 @@ const deleteClothingItem = (req, res) => {
         });
       }
       return res.status(DEFAULT).send({
-        message: `5 An error has occurred on the server`,
+        message: `An error has occurred on the server`,
       });
     });
 };
