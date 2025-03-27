@@ -1,13 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-// const {
-//   BAD_REQUEST,
-//   NOT_FOUND,
-//   DEFAULT,
-//   CONFLICT,
-//   AUTH_ERROR,
-// } = require("../utils/errors");
 const NotFoundError = require("../errors/NotFoundError");
 const BadRequestError = require("../errors/BadRequestError");
 const AuthError = require("../errors/AuthError");
@@ -19,9 +12,6 @@ const login = (req, res) => {
 
   if (!email || !password) {
     next(new BadRequestError("The password and email fields are required"));
-    // return res
-    //   .status(BAD_REQUEST)
-    //   .send({ message: "The password and email fields are required" });
   }
 
   return User.findUserByCredentials(email, password)
@@ -42,15 +32,9 @@ const login = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.message === "Incorrect email or password") {
-        // return res.status(AUTH_ERROR).send({
-        //   message: err.message,
-        // });
         next(new AuthError("Incorrect email or password"));
       }
       next(err);
-      // return res
-      //   .status(DEFAULT)
-      //   .send({ message: "An error has occured on the server" });
     });
 };
 
@@ -70,20 +54,11 @@ const createUser = (req, res) => {
       console.error(err);
       if (err.code === 11000) {
         next(new ConflictError("Email is already in use"));
-        // return res.status(CONFLICT).send({
-        //   message: `Email is already in use`,
-        // });
       }
       if (err.name === "ValidationError") {
-        // return res.status(BAD_REQUEST).send({
-        //   message: `${err.name} with the message ${err.message}`,
-        // });
         next(new BadRequestError("Validation error"));
       }
       next(err);
-      // return res
-      //   .status(DEFAULT)
-      //   .send({ message: `An error has occurred on the server` });
     });
 };
 
@@ -98,20 +73,11 @@ const getCurrentUser = (req, res) => {
       console.error(err);
       if (err.name === "ValidationError") {
         next(new BadRequestError("Validation error"));
-        // return res.status(BAD_REQUEST).send({
-        //   message: `${err.name} with the message ${err.message}`,
-        // });
       }
       if (err.name === "DocumentNotFoundError") {
         next(new NotFoundError("User not found"));
-        // return res.status(NOT_FOUND).send({
-        //   message: "User not found",
-        // });
       }
       next(err);
-      // return res.status(DEFAULT).send({
-      //   message: "An error has occured on the server",
-      // });
     });
 };
 
@@ -131,14 +97,8 @@ const updateUser = (req, res) => {
       console.error(err);
       if (err.name === "ValidationError") {
         next(new BadRequestError("Validation error"));
-        // return res.status(BAD_REQUEST).send({
-        //   message: `${err.name} with the message ${err.message}`,
-        // });
       }
       next(err);
-      // return res
-      //   .status(DEFAULT)
-      //   .send({ message: "An error has occured on the server" });
     });
 };
 

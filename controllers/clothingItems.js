@@ -1,10 +1,4 @@
 const ClothingItem = require("../models/clothingItem");
-// const {
-//   BAD_REQUEST,
-//   FORBIDDEN,
-//   NOT_FOUND,
-//   DEFAULT,
-// } = require("../utils/errors");
 const NotFoundError = require("../errors/NotFoundError");
 const ForbiddenError = require("../errors/ForbiddenError");
 const BadRequestError = require("../errors/BadRequestError");
@@ -15,9 +9,6 @@ const getClothingItems = (req, res) => {
     .catch((err) => {
       console.error(err);
       next(err);
-      // return res.status(DEFAULT).send({
-      //   message: `An error has occurred on the server ${res}`,
-      // });
     });
 };
 
@@ -33,16 +24,10 @@ const createClothingItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        // return res.status(BAD_REQUEST).send({
-        //   message: `${err.name} with the message ${err.message}`,
-        // });
         next(new BadRequestError(`Validation error`));
       } else {
         next(err);
       }
-      // return res
-      //   .status(DEFAULT)
-      //   .send({ message: `An error has occurred on the server` });
     });
 };
 
@@ -59,21 +44,12 @@ const likeClothingItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        // return res.status(NOT_FOUND).send({
-        //   message: `${err.name} with the message ${err.message}`,
-        // });
         next(new NotFoundError("Item not found"));
       }
       if (err.name === "CastError") {
-        // return res.status(BAD_REQUEST).send({
-        //   message: `${err.name} with the message ${err.message}`,
-        // });
         next(new BadRequestError("Cast Error"));
       }
       next(err);
-      // return res.status(DEFAULT).send({
-      //   message: `An error has occurred on the server`,
-      // });
     });
 };
 
@@ -90,21 +66,12 @@ const dislikeClothingItem = (req, res) =>
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        // return res.status(NOT_FOUND).send({
-        //   message: `${err.name} with the message ${err.message}`,
-        // });
         next(new NotFoundError("Item not found"));
       }
       if (err.name === "CastError") {
-        // return res.status(BAD_REQUEST).send({
-        //   message: `${err.name} with the message ${err.message}`,
-        // });
         next(new BadRequestError("Cast error"));
       }
       next(err);
-      // return res.status(DEFAULT).send({
-      //   message: `An error has occurred on the server`,
-      // });
     });
 
 const deleteClothingItem = (req, res) => {
@@ -115,9 +82,6 @@ const deleteClothingItem = (req, res) => {
     .then((item) => {
       if (String(item.owner) !== req.user._id) {
         next(new ForbiddenError("You can only delete your own items"));
-        // return res
-        //   .status(FORBIDDEN)
-        //   .send({ message: "You can only delete your own items" });
       }
       return item
         .deleteOne()
@@ -127,20 +91,11 @@ const deleteClothingItem = (req, res) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
         next(new NotFoundError("Item not found"));
-        // return res.status(NOT_FOUND).send({
-        //   message: `${err.name} with the message ${err.message}`,
-        // });
       }
       if (err.name === "CastError") {
-        // return res.status(BAD_REQUEST).send({
-        //   message: `${err.name} with the message ${err.message}`,
-        // });
         next(new BadRequestError("Cast error"));
       }
       next(err);
-      // return res.status(DEFAULT).send({
-      //   message: `An error has occurred on the server`,
-      // });
     });
 };
 
