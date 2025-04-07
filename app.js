@@ -28,7 +28,6 @@ app.use(
   })
 );
 app.use(requestLogger); //needs to be before all route handlers
-app.use(routes);
 
 app.post("/signup", createUser);
 app.post("/signin", login);
