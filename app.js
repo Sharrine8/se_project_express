@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: "*",
-  })
+  }),
 );
 app.use(requestLogger); //needs to be before all route handlers
 

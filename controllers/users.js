@@ -48,7 +48,7 @@ const createUser = (req, res) => {
         email: user.email,
         name: user.name,
         avatar: user.avatar,
-      })
+      }),
     )
     .catch((err) => {
       console.error(err);
@@ -86,7 +86,7 @@ const updateUser = (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
     { name, avatar },
-    { runValidators: true }
+    { runValidators: true },
   )
     .orFail()
     .then((user) => {

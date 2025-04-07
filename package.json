@@ -17,8 +17,11 @@
     "cors": "^2.8.5",
     "express": "^4.21.1",
     "express-winston": "^4.2.0",
+    "glob": "^11.0.1",
+    "inflight": "^1.0.6",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^6.6.1",
+    "rimraf": "^6.0.1",
     "validator": "^13.15.0",
     "winston": "^3.17.0"
   },
@@ -27,7 +30,8 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.6",
     "nodemon": "^3.1.7",
-    "prettier": "^2.8.8"
+    "prettier": "^3.5.3"
   }
 }

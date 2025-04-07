@@ -35,7 +35,7 @@ const likeClothingItem = (req, res) => {
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
     { $addToSet: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .orFail()
     .then((updatedData) => {
@@ -59,7 +59,7 @@ const dislikeClothingItem = (req, res) =>
     {
       $pull: { likes: req.user._id },
     },
-    { new: true }
+    { new: true },
   )
     .orFail()
     .then((updatedData) => res.send(updatedData))
