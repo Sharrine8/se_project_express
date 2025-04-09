@@ -5,10 +5,10 @@ const cors = require("cors");
 
 const app = express();
 const { PORT = 3001 } = process.env;
+const { errors } = require("celebrate");
 const mainRouter = require("./routes/index");
 const { createUser, login } = require("./controllers/users");
 const errorHandler = require("./middlewares/error-handler");
-const { errors } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 mongoose
@@ -28,14 +28,14 @@ app.use(
     origin: "*",
   })
 );
-app.use(requestLogger); //needs to be before all route handlers
+app.use(requestLogger); // needs to be before all route handlers
 
 app.post("/signup", createUser);
 app.post("/signin", login);
 
 app.use("/", mainRouter);
 
-app.use(errorLogger); //Needs to be after route handlers
+app.use(errorLogger); // Needs to be after route handlers
 // but before error handlers
 
 app.use(errors());
