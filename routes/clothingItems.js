@@ -7,16 +7,20 @@ const {
   dislikeClothingItem,
   deleteClothingItem,
 } = require("../controllers/clothingItems");
+const {
+  validateItemCreation,
+  validateId,
+} = require("../middlewares/validation");
 
 // CRUD -- Create, Read, Update, Delete
 
-router.post("/", auth, createClothingItem);
+router.post("/", auth, validateItemCreation, createClothingItem);
 
 router.get("/", getClothingItems);
 
-router.put("/:itemId/likes", auth, likeClothingItem);
-router.delete("/:itemId/likes", auth, dislikeClothingItem);
+router.put("/:itemId/likes", auth, validateId, likeClothingItem);
+router.delete("/:itemId/likes", auth, validateId, dislikeClothingItem);
 
-router.delete("/:itemId", auth, deleteClothingItem);
+router.delete("/:itemId", auth, validateId, deleteClothingItem);
 
 module.exports = router;

@@ -3,7 +3,7 @@ const NotFoundError = require("../errors/NotFoundError");
 const ForbiddenError = require("../errors/ForbiddenError");
 const BadRequestError = require("../errors/BadRequestError");
 
-const getClothingItems = (req, res) => {
+const getClothingItems = (req, res, next) => {
   ClothingItem.find({})
     .then((items) => res.send(items))
     .catch((err) => {
@@ -12,7 +12,7 @@ const getClothingItems = (req, res) => {
     });
 };
 
-const createClothingItem = (req, res) => {
+const createClothingItem = (req, res, next) => {
   const { name, weather, imageUrl } = req.body;
   ClothingItem.create({
     name,
@@ -31,7 +31,7 @@ const createClothingItem = (req, res) => {
     });
 };
 
-const likeClothingItem = (req, res) => {
+const likeClothingItem = (req, res, next) => {
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
     { $addToSet: { likes: req.user._id } },
@@ -53,7 +53,7 @@ const likeClothingItem = (req, res) => {
     });
 };
 
-const dislikeClothingItem = (req, res) =>
+const dislikeClothingItem = (req, res, next) =>
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
     {
@@ -74,14 +74,14 @@ const dislikeClothingItem = (req, res) =>
       next(err);
     });
 
-const deleteClothingItem = (req, res) => {
+const deleteClothingItem = (req, res, next) => {
   const { itemId } = req.params;
 
   ClothingItem.findById(itemId)
     .orFail()
     .then((item) => {
       if (String(item.owner) !== req.user._id) {
-        next(new ForbiddenError("You can only delete your own items"));
+        return next(new ForbiddenError("You can only delete your own items"));
       }
       return item
         .deleteOne()

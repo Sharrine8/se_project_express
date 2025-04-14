@@ -7,7 +7,7 @@ const AuthError = require("../errors/AuthError");
 const ConflictError = require("../errors/ConflictError");
 const { JWT_SECRET } = require("../utils/config");
 
-const login = (req, res) => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -38,7 +38,7 @@ const login = (req, res) => {
     });
 };
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   const { email, password, name, avatar } = req.body;
   return bcrypt
     .hash(password, 10)
@@ -62,7 +62,7 @@ const createUser = (req, res) => {
     });
 };
 
-const getCurrentUser = (req, res) => {
+const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail()
     .then((user) => {
@@ -81,7 +81,7 @@ const getCurrentUser = (req, res) => {
     });
 };
 
-const updateUser = (req, res) => {
+const updateUser = (req, res, next) => {
   const { name, avatar } = req.body;
   User.findByIdAndUpdate(
     req.user._id,
