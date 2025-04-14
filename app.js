@@ -6,6 +6,8 @@ const cors = require("cors");
 const app = express();
 const { PORT = 3001 } = process.env;
 const { errors } = require("celebrate");
+const { rateLimit } = require("express-rate-limit");
+const helmet = require("helmet");
 const mainRouter = require("./routes/index");
 const { createUser, login } = require("./controllers/users");
 const errorHandler = require("./middlewares/error-handler");
@@ -14,6 +16,13 @@ const {
   validateUserCreation,
   validateLogin,
 } = require("./middlewares/validation");
+
+limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+});
 
 mongoose
   .connect("mongodb://localhost:27017/wtwr_db", {
@@ -33,6 +42,9 @@ app.use(
   })
 );
 app.use(requestLogger); // needs to be before all route handlers
+app.use(limiter);
+app.use(helmet());
+app.disable("x-powered-by");
 
 // remove following request after passing review;
 app.get("/crash-test", () => {
