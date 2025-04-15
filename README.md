@@ -5,6 +5,7 @@
 - Project Description
 - Technologies Used
 - Plans for Improving
+- Links
 
 **Project Description**
 
@@ -19,5 +20,11 @@ The project is a full-stack application built with React.js, Node.js, Express.js
 
 **Plans for Improving**
 
-- Add user authorization
-- Connect to front end
+- Add map API to show user's location
+
+**Links**
+
+- [Figma Design](<https://www.figma.com/file/lNHEpsFEPoFVfsCDUf8nKA/WTWR-(Apiary)?node-id=163%3A194>)
+- [Live Site](https://wtwr.daustin.com/#/)
+- [Frontend] (https://github.com/Sharrine8/se_project_react)
+- [Backend](https://github.com/Sharrine8/se_project_express)
