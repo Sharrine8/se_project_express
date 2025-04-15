@@ -27,9 +27,18 @@ The project is a full-stack application built with React.js, Node.js, Express.js
 
 - Add map API to show user's location
 
+## Running the Project
+
+`npm run start` - to launch the server
+
+`npm run dev` - to launch the server with the hot reload feature
+
+Check package.json for additional scripts.
+
 **Links**
 
 - [Figma Design](<https://www.figma.com/file/lNHEpsFEPoFVfsCDUf8nKA/WTWR-(Apiary)?node-id=163%3A194>)
 - [Live Site](https://wtwr.daustin.com/#/)
 - [Frontend] (https://github.com/Sharrine8/se_project_react)
 - [Backend](https://github.com/Sharrine8/se_project_express)
+- API: https://api.wtwr.daustin.com/
