@@ -13,10 +13,15 @@ The project is a full-stack application built with React.js, Node.js, Express.js
 
 **Technologies Used**
 
-- MongoDB + Mongoose
-- Node.js + Express.js
-- REST API
-- Javascript
+- React.js
+- React Router
+- Node.js
+- Express.js
+- MongoDB
+- Vite
+- NginX
+- GCP
+- JWT Auth
 
 **Plans for Improving**
 
