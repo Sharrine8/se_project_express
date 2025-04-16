@@ -39,6 +39,6 @@ Check package.json for additional scripts.
 
 - [Figma Design](<https://www.figma.com/file/lNHEpsFEPoFVfsCDUf8nKA/WTWR-(Apiary)?node-id=163%3A194>)
 - [Live Site](https://wtwr.daustin.com/#/)
-- [Frontend] (https://github.com/Sharrine8/se_project_react)
-- [Backend](https://github.com/Sharrine8/se_project_express)
-- API: https://api.wtwr.daustin.com/
+- [Frontend Repo](https://github.com/Sharrine8/se_project_react)
+- [Backend Repo](https://github.com/Sharrine8/se_project_express)
+- [Backend Domain](https://api.wtwr.daustin.com/)
