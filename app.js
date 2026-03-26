@@ -25,13 +25,9 @@ const limiter = rateLimit({
 });
 
 mongoose
-  .connect("mongodb://localhost:27017/wtwr_db", {
-    authSource: "admin",
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/wtwr_db")
   .then(() => {
-    console.log("Connected to DB", `${process.env}`);
+    console.log("Connected to DB");
   })
   .catch(console.error, "Error connecting to DB");
 
@@ -39,7 +35,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: "*",
-  })
+  }),
 );
 app.use(requestLogger); // needs to be before all route handlers
 app.use(limiter);
