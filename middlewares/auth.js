@@ -5,7 +5,7 @@ const AuthError = require("../errors/AuthError");
 function auth(req, res, next) {
   const { authorization } = req.headers;
   if (!authorization || !authorization.startsWith("Bearer ")) {
-    throw new AuthError("Authorization required");
+    return next(new AuthError("Authorization required"));
   }
 
   const token = authorization.replace("Bearer ", "");
@@ -14,7 +14,7 @@ function auth(req, res, next) {
   try {
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
-    throw new AuthError("Unverified token");
+    return next(new AuthError("Unverified token"));
   }
   req.user = payload;
   return next();
