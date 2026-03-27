@@ -8,6 +8,10 @@ const clothingItemRouter = require("./clothingItems");
 router.use("/users", userRouter);
 router.use("/items", clothingItemRouter);
 
+router.get("/", (req, res) => {
+  res.send({ message: "Welcome to the WTWR API" });
+});
+
 router.use((_req, _res) => {
   throw new NotFoundError("Router not found");
 });
