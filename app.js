@@ -34,8 +34,7 @@ mongoose
 app.use(express.json());
 app.use(
   cors({
-    // origin: "https://se-project-react-sigma.vercel.app",
-    origin: "*",
+    origin: "https://se-project-react-sigma.vercel.app",
   }),
 );
 app.use(requestLogger); // needs to be before all route handlers
