@@ -50,6 +50,16 @@ app.get("/crash-test", () => {
   }, 0);
 });
 
+// Debug endpoint to verify auth headers
+app.get("/debug-auth", (req, res) => {
+  const authHeader = req.headers.authorization;
+  res.send({
+    hasAuthHeader: !!authHeader,
+    authHeader: authHeader ? authHeader.substring(0, 20) + "..." : "missing",
+    allHeaders: Object.keys(req.headers),
+  });
+});
+
 app.post("/signup", validateUserCreation, createUser);
 app.post("/signin", validateLogin, login);
 
