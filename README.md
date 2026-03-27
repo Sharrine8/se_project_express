@@ -20,7 +20,7 @@ The project is a full-stack application built with React.js, Node.js, Express.js
 - MongoDB
 - Vite
 - NginX
-- GCP
+- GCP (Switched to Render/Vercel)
 - JWT Auth
 
 **Plans for Improving**
@@ -38,7 +38,7 @@ Check package.json for additional scripts.
 **Links**
 
 - [Figma Design](<https://www.figma.com/file/lNHEpsFEPoFVfsCDUf8nKA/WTWR-(Apiary)?node-id=163%3A194>)
-- [Live Site](https://wtwr.daustin.com/#/)
+- [Live Site](https://se-project-react-sigma.vercel.app/#/)
 - [Frontend Repo](https://github.com/Sharrine8/se_project_react)
 - [Backend Repo](https://github.com/Sharrine8/se_project_express)
-- [Backend Domain](https://api.wtwr.daustin.com/)
+- [Backend Domain](https://se-project-express-8dbz.onrender.com/)
