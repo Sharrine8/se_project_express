@@ -34,6 +34,7 @@ mongoose
 app.use(express.json());
 app.use(
   cors({
+    // origin: "https://se-project-react-sigma.vercel.app",
     origin: "*",
   }),
 );
